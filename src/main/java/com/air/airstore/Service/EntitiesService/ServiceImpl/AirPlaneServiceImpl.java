@@ -1,8 +1,10 @@
 package com.air.airstore.Service.EntitiesService.ServiceImpl;
 
 import com.air.airstore.EntityDTO.AirPlaneEntityDTO;
+import com.air.airstore.EntityDTO.TicketEntityDTO;
 import com.air.airstore.Repository.AirPlaneRepository;
 import com.air.airstore.Service.DTOMapper.ServiceDTO.AirPlaneEntityDtoMapper;
+import com.air.airstore.Service.DTOMapper.ServiceDTO.TicketDTOMapper;
 import com.air.airstore.Service.EntitiesService.AirPlaneService;
 import com.air.airstore.model.AirPlaneEntity;
 import jakarta.transaction.Transactional;
@@ -14,10 +16,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class EntitiesAirPlaneServiceImpl implements AirPlaneService {
+public class AirPlaneServiceImpl implements AirPlaneService {
 
     @Autowired
     private AirPlaneRepository airPlaneRepository;
+    @Autowired
+    private TicketDTOMapper ticketDTOMapper;
     @Autowired
     private AirPlaneEntityDtoMapper airPlaneEntityDtoMapper;
 
@@ -57,9 +61,16 @@ public class EntitiesAirPlaneServiceImpl implements AirPlaneService {
 
         return airPlaneEntityDtoMapper.toAirPlaneEntityDTO(airPlaneRepository.save(airPlaneEntity));
 
-
     }
 
+    @Override
+    public List<TicketEntityDTO> findAllTicketsByAirPlaneId(Long id) {
+        AirPlaneEntity airPlaneEntity = airPlaneRepository.findById(id).orElseThrow(()
+                -> new RuntimeException("Not found"));
+
+        return airPlaneEntity.getTickets().stream().map(ticketDTOMapper::toDTO)
+                .collect(Collectors.toList());
+    }
 
     public List<AirPlaneEntityDTO> searchAirPlane(String name) {
 
@@ -69,7 +80,6 @@ public class EntitiesAirPlaneServiceImpl implements AirPlaneService {
                 .collect(Collectors.toList());
 
     }
-
 
     @Override
     public void deleteAirPlane(Long id) {
