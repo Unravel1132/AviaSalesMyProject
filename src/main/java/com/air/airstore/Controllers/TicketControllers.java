@@ -3,6 +3,7 @@ package com.air.airstore.Controllers;
 
 import com.air.airstore.EntityDTO.TicketEntityDTO;
 import com.air.airstore.Service.EntitiesService.ServiceImpl.TicketServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Контроллер работы с тикетами")
 @RestController
 @RequestMapping("/v1")
 public class TicketControllers {
