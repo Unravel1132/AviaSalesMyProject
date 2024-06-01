@@ -18,13 +18,19 @@ import java.util.stream.Collectors;
 @Service
 public class AirPlaneServiceImpl implements AirPlaneService {
 
-    @Autowired
-    private AirPlaneRepository airPlaneRepository;
-    @Autowired
-    private TicketDTOMapper ticketDTOMapper;
-    @Autowired
-    private AirPlaneEntityDtoMapper airPlaneEntityDtoMapper;
 
+    private final AirPlaneRepository airPlaneRepository;
+
+    private final TicketDTOMapper ticketDTOMapper;
+
+    private final AirPlaneEntityDtoMapper airPlaneEntityDtoMapper;
+
+    @Autowired
+    public AirPlaneServiceImpl(AirPlaneRepository airPlaneRepository, TicketDTOMapper ticketDTOMapper, AirPlaneEntityDtoMapper airPlaneEntityDtoMapper) {
+        this.airPlaneRepository = airPlaneRepository;
+        this.ticketDTOMapper = ticketDTOMapper;
+        this.airPlaneEntityDtoMapper = airPlaneEntityDtoMapper;
+    }
 
     @Override
     public List<AirPlaneEntityDTO> getAllAirPlanes() {
@@ -72,14 +78,14 @@ public class AirPlaneServiceImpl implements AirPlaneService {
                 .collect(Collectors.toList());
     }
 
-    public List<AirPlaneEntityDTO> searchAirPlane(String name) {
-
-        List<AirPlaneEntity> airPlaneEntities = airPlaneRepository.searchTicket(name);
-
-        return airPlaneEntities.stream().map(airPlaneEntityDtoMapper::toAirPlaneEntityDTO)
-                .collect(Collectors.toList());
-
-    }
+//    public List<AirPlaneEntityDTO> searchAirPlane(String name) {
+//
+//        List<AirPlaneEntity> airPlaneEntities = airPlaneRepository.findBySeatCountOrPrice()
+//
+//        return airPlaneEntities.stream().map(airPlaneEntityDtoMapper::toAirPlaneEntityDTO)
+//                .collect(Collectors.toList());
+//
+//    }
 
     @Override
     public void deleteAirPlane(Long id) {

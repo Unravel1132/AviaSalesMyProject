@@ -51,7 +51,7 @@ public class TicketControllers {
         }
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add/{id}")
     public ResponseEntity<TicketEntityDTO> addTicket(@RequestBody TicketEntityDTO ticketDTO, @PathVariable Long id) {
         try{
             TicketEntityDTO ticketEntityDTO = tickerService.createTicket(ticketDTO,id);

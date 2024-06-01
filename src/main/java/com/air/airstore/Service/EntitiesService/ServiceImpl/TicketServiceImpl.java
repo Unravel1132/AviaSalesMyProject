@@ -4,7 +4,6 @@ import com.air.airstore.EntityDTO.TicketEntityDTO;
 import com.air.airstore.Repository.AirPlaneRepository;
 import com.air.airstore.Repository.TicketEntityRepository;
 import com.air.airstore.Service.DTOMapper.ServiceDTO.TicketDTOMapper;
-import com.air.airstore.Service.EntitiesService.OrderService;
 import com.air.airstore.Service.EntitiesService.TicketService;
 import com.air.airstore.model.AirPlaneEntity;
 import com.air.airstore.model.TicketEntity;
@@ -12,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,15 +20,18 @@ import java.util.stream.Collectors;
 public class TicketServiceImpl implements TicketService {
 
 
-    @Autowired
-    private TicketEntityRepository repository;
+     private final TicketEntityRepository repository;
 
-    @Autowired
-    private TicketDTOMapper ticketDTOMapper;
+     private final TicketDTOMapper ticketDTOMapper;
 
-    @Autowired
-    private AirPlaneRepository airPlaneRepository;
+     private final AirPlaneRepository airPlaneRepository;
 
+     @Autowired
+    public TicketServiceImpl(TicketEntityRepository repository, TicketDTOMapper ticketDTOMapper, AirPlaneRepository airPlaneRepository) {
+        this.repository = repository;
+        this.ticketDTOMapper = ticketDTOMapper;
+        this.airPlaneRepository = airPlaneRepository;
+    }
 
     @Override
     public List<TicketEntityDTO> getTickets() {
@@ -73,16 +76,24 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<TicketEntityDTO> findAllTicketsByAirplaneId(Long id) {
 
-        AirPlaneEntity airPlaneEntity = airPlaneRepository.findById(id).orElse(null);
+        Optional<AirPlaneEntity> airPlaneEntityOptional = airPlaneRepository.findById(id);
+        AirPlaneEntity airPlaneEntity = airPlaneEntityOptional.orElse(null);
+
+        if (airPlaneEntity == null) {
+            return Collections.emptyList();
+        }
 
         return airPlaneEntity.getTickets().stream().map(ticketDTOMapper::toDTO).collect(Collectors.toList());
     }
 
+
+
     @Override
     public void deleteTicket(Long id) {
-
-        AirPlaneEntity airPlaneEntity = airPlaneRepository.findById(id).orElse(null);
         repository.deleteById(id);
 
     }
+
+
+
 }
