@@ -52,7 +52,8 @@ public class TicketServiceImpl implements TicketService {
     @Transactional
     public TicketEntityDTO createTicket(TicketEntityDTO ticket, Long id) {
 
-        AirPlaneEntity airPlaneEntity = airPlaneRepository.findById(id).orElseThrow(() -> new RuntimeException("Air plane not found"));
+        AirPlaneEntity airPlaneEntity = airPlaneRepository.findById(id).orElseThrow(()
+                -> new RuntimeException("Air plane not found"));
 
         TicketEntity ticketEntity = ticketDTOMapper.toEntity(ticket);
         ticketEntity.setAirPlaneEntity(airPlaneEntity);
