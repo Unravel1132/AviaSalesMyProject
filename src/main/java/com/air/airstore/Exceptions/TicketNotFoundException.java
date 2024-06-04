@@ -1,4 +1,4 @@
-package com.air.airstore.Exeptions;
+package com.air.airstore.Exceptions;
 
 public class TicketNotFoundException extends RuntimeException{
     public TicketNotFoundException(String message) {

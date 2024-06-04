@@ -1,9 +1,8 @@
 package com.air.airstore.Service.EntitiesService.ServiceImpl;
 
-import com.air.airstore.EntityDTO.AirPlaneEntityDTO;
 import com.air.airstore.EntityDTO.TicketEntityDTO;
-import com.air.airstore.Exeptions.AirPlaneNotFoundException;
-import com.air.airstore.Exeptions.TicketNotFoundException;
+import com.air.airstore.Exceptions.AirPlaneNotFoundException;
+import com.air.airstore.Exceptions.TicketNotFoundException;
 import com.air.airstore.Repository.AirPlaneRepository;
 import com.air.airstore.Repository.TicketEntityRepository;
 import com.air.airstore.Service.DTOMapper.ServiceDTO.AirPlaneEntityDtoMapper;
@@ -17,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
