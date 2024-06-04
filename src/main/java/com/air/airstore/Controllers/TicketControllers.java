@@ -3,6 +3,7 @@ package com.air.airstore.Controllers;
 
 import com.air.airstore.EntityDTO.TicketEntityDTO;
 import com.air.airstore.Service.EntitiesService.ServiceImpl.TicketServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,22 +43,21 @@ public class TicketControllers {
         return ResponseEntity.ok(ticketEntityDTO);
     }
 
+
+    @Operation(
+            summary = "Метод, который добавляет тикет к самолету"
+    )
     @PostMapping("/add/{id}")
     public ResponseEntity<TicketEntityDTO> addTicket(@RequestBody TicketEntityDTO ticketDTO, @PathVariable Long id) {
-
-            TicketEntityDTO createdTicketEntityDTO = tickerService.createTicket(ticketDTO, id);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdTicketEntityDTO);
+        TicketEntityDTO createdTicketEntityDTO = tickerService.createTicket(ticketDTO, id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdTicketEntityDTO);
     }
+
 
     @PutMapping("/put/{id}")
     public ResponseEntity<TicketEntityDTO> updateTicket(@RequestBody TicketEntityDTO ticketDTO, @PathVariable Long id) {
-        try {
-            TicketEntityDTO ticketEntityDTO = tickerService.updateTicket(id, ticketDTO);
-            return ResponseEntity.ok(ticketEntityDTO);
-        } catch (Exception e) {
-            logger.error("Ошибка при добавлении тикела к самолету: ", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        TicketEntityDTO updatedTicketEntityDTO = tickerService.updateTicket(id, ticketDTO);
+        return ResponseEntity.ok(updatedTicketEntityDTO);
     }
 
 
