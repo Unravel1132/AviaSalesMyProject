@@ -7,6 +7,7 @@ import lombok.Data;
 public class TicketEntityDTO {
 
     private Long id;
+    private String title;
     private String seatNumber;
     private Double price;
     @JsonIgnore

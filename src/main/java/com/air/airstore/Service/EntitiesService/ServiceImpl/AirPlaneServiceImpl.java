@@ -80,7 +80,7 @@ public class AirPlaneServiceImpl implements AirPlaneService {
 
 //    public List<AirPlaneEntityDTO> searchAirPlane(String name) {
 //
-//        List<AirPlaneEntity> airPlaneEntities = airPlaneRepository.findBySeatCountOrPrice()
+//        List<AirPlaneEntity> airPlaneEntities = airPlaneRepository.findBySeatCountOrPrice(name)
 //
 //        return airPlaneEntities.stream().map(airPlaneEntityDtoMapper::toAirPlaneEntityDTO)
 //                .collect(Collectors.toList());

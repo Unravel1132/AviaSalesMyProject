@@ -11,7 +11,6 @@ public interface TicketService {
     TicketEntityDTO getTicketById(Long id);
     TicketEntityDTO createTicket(TicketEntityDTO ticket, Long id);
     TicketEntityDTO updateTicket(Long id, TicketEntityDTO ticket);
-    List<TicketEntityDTO> findAllTicketsByAirplaneId(Long id);
     void deleteTicket(Long id);
 
 

@@ -20,7 +20,6 @@ public class TicketControllers {
 
     private final TicketServiceImpl tickerService;
 
-
     private static final Logger logger = LoggerFactory.getLogger(TicketControllers.class);
 
 
@@ -32,39 +31,45 @@ public class TicketControllers {
 
     @GetMapping("/all")
     public ResponseEntity<List<TicketEntityDTO>> getAllTickets() {
-        try{
-            return ResponseEntity.ok(tickerService.getTickets());
-    }catch (Exception e){
-            logger.error(e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
 
+        return ResponseEntity.ok(tickerService.getTickets());
     }
 
     @GetMapping("/all/{id}")
     public ResponseEntity<TicketEntityDTO> getTicketById(@PathVariable Long id) {
 
-        try{
-            return ResponseEntity.ok(tickerService.getTicketById(id));
-
-        }catch (Exception e){
-            logger.error(e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        TicketEntityDTO ticketEntityDTO = tickerService.getTicketById(id);
+        return ResponseEntity.ok(ticketEntityDTO);
     }
 
     @PostMapping("/add/{id}")
     public ResponseEntity<TicketEntityDTO> addTicket(@RequestBody TicketEntityDTO ticketDTO, @PathVariable Long id) {
-        try{
-            TicketEntityDTO ticketEntityDTO = tickerService.createTicket(ticketDTO,id);
-            return new ResponseEntity<>(ticketEntityDTO, HttpStatus.CREATED);
-        }catch (Exception e){
-            logger.error(e.getMessage());
+
+            TicketEntityDTO createdTicketEntityDTO = tickerService.createTicket(ticketDTO, id);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdTicketEntityDTO);
+    }
+
+    @PutMapping("/put/{id}")
+    public ResponseEntity<TicketEntityDTO> updateTicket(@RequestBody TicketEntityDTO ticketDTO, @PathVariable Long id) {
+        try {
+            TicketEntityDTO ticketEntityDTO = tickerService.updateTicket(id, ticketDTO);
+            return ResponseEntity.ok(ticketEntityDTO);
+        } catch (Exception e) {
+            logger.error("Ошибка при добавлении тикела к самолету: ", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteTicket(@PathVariable Long id) {
+        if (id != null) {
+            tickerService.deleteTicket(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 
 
 }

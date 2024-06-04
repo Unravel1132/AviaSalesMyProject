@@ -13,6 +13,7 @@ public class TicketDTOMapperImpl implements TicketDTOMapper {
 
         TicketEntity ticketEntity = new TicketEntity();
         ticketEntity.setId(ticketEntityDTO.getId());
+        ticketEntity.setTitle(ticketEntityDTO.getTitle());
         ticketEntity.setPrice(ticketEntityDTO.getPrice());
         ticketEntity.setSeatNumber(ticketEntityDTO.getSeatNumber());
 
@@ -24,6 +25,7 @@ public class TicketDTOMapperImpl implements TicketDTOMapper {
 
         TicketEntityDTO ticketEntityDTO = new TicketEntityDTO();
         ticketEntityDTO.setId(ticketEntity.getId());
+        ticketEntityDTO.setTitle(ticketEntity.getTitle());
         ticketEntityDTO.setSeatNumber(ticketEntity.getSeatNumber());
         ticketEntityDTO.setPrice(ticketEntity.getPrice());
 
