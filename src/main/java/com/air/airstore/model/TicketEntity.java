@@ -23,4 +23,7 @@ public class TicketEntity {
     @ManyToOne
     @JoinColumn(name = "airplane_id")
     private AirPlaneEntity airPlaneEntity;
+
+    public TicketEntity(Double price, String title, String seatNumber) {
+    }
 }

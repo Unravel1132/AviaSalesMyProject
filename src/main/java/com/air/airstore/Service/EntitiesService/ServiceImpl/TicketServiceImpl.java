@@ -76,65 +76,58 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @Transactional
     public TicketEntityDTO createTicket(TicketEntityDTO ticket, Long id) {
-        try {
-            Optional<AirPlaneEntity> airPlaneEntityOptional = airPlaneRepository.findById(id);
-            if (airPlaneEntityOptional.isPresent()) {
-                AirPlaneEntity airPlaneEntity = airPlaneEntityOptional.get();
-                TicketEntity ticketEntity = new TicketEntity();
-                ticketEntity.setPrice(ticket.getPrice());
-                ticketEntity.setTitle(ticket.getTitle());
-                ticketEntity.setSeatNumber(ticket.getSeatNumber());
-                //Сначала я проверяю если не равно null
-                if (ticket.getAirPlaneEntity() != null) {
-                    AirPlaneEntity airPlaneEntity_2 = airPlaneEntityDtoMapper.toAirPlaneEntity(ticket.getAirPlaneEntity());
-                    ticketEntity.setAirPlaneEntity(airPlaneEntity_2);
-                }
-                TicketEntity savedTicketEntity = repository.save(ticketEntity);
-                return ticketDTOMapper.toDTO(savedTicketEntity);
-            } else {
-                throw new AirPlaneNotFoundException("AirPlane with ID " + id + " not found");
-            }
-        } catch (AirPlaneNotFoundException e) {
-            throw e;
-        } catch (Exception e) {
-            logger.error("Error creating ticket: {}", e.getMessage(), e);
-            throw e;
+        logger.info("Creating ticket for AirPlane with ID: {}", id);
+        AirPlaneEntity airPlaneEntity = airPlaneRepository.findById(id).
+                orElseThrow(() -> {
+                    logger.info("AirPlane with ID {} not found", id);
+                    return new AirPlaneNotFoundException("AirPlane with ID " + id + " not found");
+                });
+        TicketEntity ticketEntity = new TicketEntity(ticket.getPrice(), ticket.getTitle(), ticket.getSeatNumber());
+        if (ticket.getAirPlaneEntity() != null) {
+            AirPlaneEntity airPlaneEntity2 = airPlaneEntityDtoMapper.toAirPlaneEntity(ticket.getAirPlaneEntity());
+            ticketEntity.setAirPlaneEntity(airPlaneEntity2);
+        } else {
+            ticketEntity.setAirPlaneEntity(airPlaneEntity);
         }
+        TicketEntity savedTicketEntity = repository.save(ticketEntity);
+        logger.info("Билет успешно создан для самолета с ID: {}", id);
+        return ticketDTOMapper.toDTO(savedTicketEntity);
     }
+
 
     @Override
     @Transactional
     public TicketEntityDTO updateTicket(Long id, TicketEntityDTO ticket) {
-    try {
-        Optional<TicketEntity> ticketEntityOptional = repository.findById(id);
-        if(ticketEntityOptional.isPresent()){
-            TicketEntity ticketEntity = ticketEntityOptional.get();
-            ticketEntity.setPrice(ticket.getPrice());
-            ticketEntity.setTitle(ticket.getTitle());
-            ticketEntity.setSeatNumber(ticket.getSeatNumber());
+        TicketEntity ticketEntity = repository.findById(id).orElseThrow(
+                () -> {
+                    logger.info("Ticket with ID {} not found", id);
+                    return new TicketNotFoundException("Ticket with ID " + id + " not found");
+                }
+        );
+        ticketEntity.setPrice(ticket.getPrice());
+        ticketEntity.setTitle(ticket.getTitle());
+        ticketEntity.setSeatNumber(ticket.getSeatNumber());
 
-            if(ticket.getAirPlaneEntity() != null){
-                AirPlaneEntity airPlaneEntity = airPlaneEntityDtoMapper.toAirPlaneEntity(ticket.getAirPlaneEntity());
-                ticketEntity.setAirPlaneEntity(airPlaneEntity);
-            }
-            TicketEntity savedEntity = repository.save(ticketEntity);
-            return ticketDTOMapper.toDTO(ticketEntity);
-        }else{
-            throw new TicketNotFoundException("Ticket with ID " + id + " not found");
+        if (ticket.getAirPlaneEntity() != null) {
+            AirPlaneEntity airPlaneEntity = airPlaneEntityDtoMapper.toAirPlaneEntity(ticket.getAirPlaneEntity());
+            ticketEntity.setAirPlaneEntity(airPlaneEntity);
+        } else {
+            ticketEntity.setAirPlaneEntity(null);
         }
-    }catch (TicketNotFoundException e){
-        throw e;
-    }catch (Exception e){
-        logger.error("Error updating ticket: {}", e.getMessage(), e);
-        throw e;
-    }
-
+        TicketEntity savedTicketEntity = repository.save(ticketEntity);
+        logger.info("Ticket with ID: {} successfully updated", id);
+        return ticketDTOMapper.toDTO(savedTicketEntity);
     }
 
 
     @Override
     public void deleteTicket(Long id) {
-        repository.deleteById(id);
+        logger.info("Deleting ticket with ID: {}", id);
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+        } else {
+            throw new TicketNotFoundException("Ticket with ID " + id + " not found");
+        }
 
     }
 
