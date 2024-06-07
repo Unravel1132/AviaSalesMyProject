@@ -21,9 +21,6 @@ public class TicketControllers {
 
     private final TicketServiceImpl tickerService;
 
-    private static final Logger logger = LoggerFactory.getLogger(TicketControllers.class);
-
-
     @Autowired
     public TicketControllers(TicketServiceImpl tickerService) {
         this.tickerService = tickerService;
@@ -32,17 +29,24 @@ public class TicketControllers {
 
     @GetMapping("/all")
     public ResponseEntity<List<TicketEntityDTO>> getAllTickets() {
-
         return ResponseEntity.ok(tickerService.getTickets());
     }
 
     @GetMapping("/all/{id}")
     public ResponseEntity<TicketEntityDTO> getTicketById(@PathVariable Long id) {
-
         TicketEntityDTO ticketEntityDTO = tickerService.getTicketById(id);
         return ResponseEntity.ok(ticketEntityDTO);
     }
 
+
+    @GetMapping("/all/search")
+    public ResponseEntity<List<TicketEntityDTO>> searchTicketsByNameAndPrice(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Double price) {
+
+        List<TicketEntityDTO> ticketEntityDTOS = tickerService.findByAirPlaneEntityNameAndPrice(name, price);
+        return ResponseEntity.ok(ticketEntityDTOS);
+    }
 
     @Operation(
             summary = "Метод, который добавляет тикет к самолету"
@@ -63,13 +67,7 @@ public class TicketControllers {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteTicket(@PathVariable Long id) {
-        if (id != null) {
-            tickerService.deleteTicket(id);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
-
-
+      tickerService.deleteTicket(id);
+      return ResponseEntity.noContent().build();
+}
 }

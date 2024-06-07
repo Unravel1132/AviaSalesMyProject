@@ -56,31 +56,25 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public TicketEntityDTO getTicketById(Long id) {
-        try {
-            Optional<TicketEntity> ticketEntity = repository.findById(id);
-            if (ticketEntity.isPresent()) {
-                TicketEntity ticket = ticketEntity.get();
-                return ticketDTOMapper.toDTO(ticket);
-            } else {
-                throw new TicketNotFoundException("Ticket with ID " + id + " not found");
-            }
-        } catch (TicketNotFoundException e) {
-            throw e;
-        } catch (Exception e) {
-            logger.error("Error retrieving ticket with ID {}: {}", id, e.getMessage(), e);
-            throw e;
-        }
+       return repository.findById(id)
+                .map(ticketDTOMapper::toDTO).orElseThrow(() -> {
+                    logger.error("Ticket with id {} not found", id);
+                    throw new TicketNotFoundException("Ticket with id " + id + " not found");
+                });
     }
 
 
-    public List<TicketEntityDTO> findByAirPlaneEntityName(String name) {
-        List<TicketEntity> ticketEntities = repository.findByAirPlaneEntityName(name);
-
-        return ticketEntities.stream()
-                .map(ticketDTOMapper::toDTO)
-                .collect(Collectors
-                        .toList());
-
+    public List<TicketEntityDTO> findByAirPlaneEntityNameAndPrice(String name, Double price) {
+        try {
+            List<TicketEntity> ticketEntities = repository.findByAirPlaneEntityName(name, price);
+            logger.info("Retrieved {} tickets from the database", ticketEntities.size());
+            return ticketEntities.stream()
+                    .map(ticketDTOMapper::toDTO)
+                    .collect(Collectors.toList());
+        } catch (TicketNotFoundException e) {
+            logger.error("Ticket with name {} not found", name);
+            throw new TicketNotFoundException("Ticket with name " + name + " and price " + price + " not found");
+        }
     }
 
 

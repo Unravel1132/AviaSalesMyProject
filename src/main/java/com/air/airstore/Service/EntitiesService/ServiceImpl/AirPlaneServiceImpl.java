@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 @Service
 public class AirPlaneServiceImpl implements AirPlaneService {
 
-
     private final AirPlaneRepository airPlaneRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(AirPlaneServiceImpl.class);
 
     private final TicketDTOMapper ticketDTOMapper;
@@ -99,24 +99,12 @@ public class AirPlaneServiceImpl implements AirPlaneService {
     }
 
 
-    public List<AirPlaneEntityDTO> searchAirPlane(String name, Double price, Integer seatNumber) {
+    public List<AirPlaneEntityDTO> searchAirPlane(String name) {
         List<AirPlaneEntity> airPlaneEntities = new ArrayList<>();
         try {
-
-
             if (name != null && !name.isEmpty()) {
                 logger.info("Searching AirPlane with name " + name);
                 airPlaneEntities.addAll(airPlaneRepository.findByName(name));
-            }
-            if (price != null) {
-                logger.info("Searching AirPlane with price " + price);
-                airPlaneEntities.addAll(airPlaneRepository.findByPriceLess(price));
-            }
-
-            if (seatNumber != null) {
-                logger.info("Searching AirPlane with seat " + seatNumber);
-                airPlaneEntities.addAll(airPlaneRepository.findBySeatCount(seatNumber));
-                airPlaneEntities = airPlaneEntities.stream().distinct().collect(Collectors.toList());
             }
         } catch (TicketNotFoundException e) {
             logger.error("Ticket not found");

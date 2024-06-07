@@ -10,5 +10,7 @@ import java.util.List;
 
 public interface TicketEntityRepository extends JpaRepository<TicketEntity, Long> {
 
- List<TicketEntity> findByAirPlaneEntityName(String airplaneName);
+ List<TicketEntity> findByAirPlaneEntityName(String airplaneName, Double price);
+
+
  }
