@@ -73,6 +73,17 @@ public class TicketServiceImpl implements TicketService {
     }
 
 
+    public List<TicketEntityDTO> findByAirPlaneEntityName(String name) {
+        List<TicketEntity> ticketEntities = repository.findByAirPlaneEntityName(name);
+
+        return ticketEntities.stream()
+                .map(ticketDTOMapper::toDTO)
+                .collect(Collectors
+                        .toList());
+
+    }
+
+
     @Override
     @Transactional
     public TicketEntityDTO createTicket(TicketEntityDTO ticket, Long id) {

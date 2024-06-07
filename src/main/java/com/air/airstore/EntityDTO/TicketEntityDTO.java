@@ -8,7 +8,7 @@ public class TicketEntityDTO {
 
     private Long id;
     private String title;
-    private String seatNumber;
+    private int seatNumber;
     private Double price;
     @JsonIgnore
     private AirPlaneEntityDTO airPlaneEntity;

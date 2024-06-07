@@ -17,13 +17,13 @@ public class TicketEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String seatNumber;
+    private int seatNumber;
     private double price;
 
     @ManyToOne
     @JoinColumn(name = "airplane_id")
     private AirPlaneEntity airPlaneEntity;
 
-    public TicketEntity(Double price, String title, String seatNumber) {
+    public TicketEntity(Double price, String title, int seatNumber) {
     }
 }
