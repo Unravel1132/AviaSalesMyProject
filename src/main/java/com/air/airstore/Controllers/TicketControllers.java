@@ -48,15 +48,11 @@ public class TicketControllers {
         return ResponseEntity.ok(ticketEntityDTOS);
     }
 
-    @Operation(
-            summary = "Метод, который добавляет тикет к самолету"
-    )
     @PostMapping("/add/{id}")
     public ResponseEntity<TicketEntityDTO> addTicket(@RequestBody TicketEntityDTO ticketDTO, @PathVariable Long id) {
         TicketEntityDTO createdTicketEntityDTO = tickerService.createTicket(ticketDTO, id);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTicketEntityDTO);
     }
-
 
     @PutMapping("/put/{id}")
     public ResponseEntity<TicketEntityDTO> updateTicket(@RequestBody TicketEntityDTO ticketDTO, @PathVariable Long id) {
