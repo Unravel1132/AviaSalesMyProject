@@ -5,8 +5,8 @@ import com.air.airstore.model.Order;
 
 public interface OrderDtoMapper {
 
-    Order toDto(OrderDTO orderDto);
-    OrderDTO toEntity(Order order);
+    OrderDTO toDto(Order orderDto);
+    Order toEntity(OrderDTO order);
 
 
 }

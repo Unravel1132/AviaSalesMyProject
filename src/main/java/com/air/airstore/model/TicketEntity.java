@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -23,6 +25,11 @@ public class TicketEntity {
     @ManyToOne
     @JoinColumn(name = "airplane_id")
     private AirPlaneEntity airPlaneEntity;
+
+
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
     public TicketEntity(Double price, String title, int seatNumber) {
     }

@@ -7,12 +7,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AirPlaneEntityDtoMapperImpl implements AirPlaneEntityDtoMapper {
+
     @Override
     public AirPlaneEntityDTO toAirPlaneEntityDTO(AirPlaneEntity airPlaneEntity) {
-
             AirPlaneEntityDTO airPlaneEntityDTO = new AirPlaneEntityDTO();
             airPlaneEntityDTO.setId(airPlaneEntity.getId());
-
         return airPlaneEntityDTO;
     }
 

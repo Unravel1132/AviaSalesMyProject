@@ -1,6 +1,5 @@
 package com.air.airstore.Controllers;
 
-
 import com.air.airstore.EntityDTO.AirPlaneEntityDTO;
 import com.air.airstore.EntityDTO.TicketEntityDTO;
 import com.air.airstore.Service.EntitiesService.ServiceImpl.AirPlaneServiceImpl;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 

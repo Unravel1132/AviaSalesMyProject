@@ -17,8 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "users")
 public class User {
-
-
     @Id
     private Long id;
     private String username;
@@ -26,4 +24,7 @@ public class User {
     private String email;
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "user")
+    private List<Cart> carts;
 }
