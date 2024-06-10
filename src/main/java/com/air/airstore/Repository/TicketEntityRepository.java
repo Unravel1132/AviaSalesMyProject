@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface TicketEntityRepository extends JpaRepository<TicketEntity, Long> {
 
+
+ @Query("select t from TicketEntity t where t.airPlaneEntity.name = :airplaneName AND t.price = :price")
  List<TicketEntity> findByAirPlaneEntityName(String airplaneName, Double price);
 
 

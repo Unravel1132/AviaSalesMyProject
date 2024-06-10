@@ -32,7 +32,7 @@ public class AviaController {
     }
 
     @GetMapping("/all/{id}")
-    public ResponseEntity<List<TicketEntityDTO>> findAllTicketsById(@PathVariable Long id) {
+    public ResponseEntity<List<TicketEntityDTO>> findAllTicketsByAirplaneId (@PathVariable Long id) {
         List<TicketEntityDTO> ticketEntityDTOList = airPlaneService.findAllTicketsByAirPlaneId(id);
         return ResponseEntity.ok(ticketEntityDTOList);
     }

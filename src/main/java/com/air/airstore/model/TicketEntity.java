@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Entity
 @NoArgsConstructor
@@ -19,7 +17,7 @@ public class TicketEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private int seatNumber;
+    private String seatNumber;
     private double price;
 
     @ManyToOne
@@ -31,6 +29,6 @@ public class TicketEntity {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    public TicketEntity(Double price, String title, int seatNumber) {
+    public TicketEntity(Double price, String title, String seatNumber) {
     }
 }
